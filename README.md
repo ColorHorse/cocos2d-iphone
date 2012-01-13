@@ -1,3 +1,11 @@
+Some extensions cocos2d for iPhone
+==================
+
+Some extensions added to [cocos2d for iPhone][1] by [jpsarda][4].
+
+Download, launch the project with Xcode and execute the JpsardaTest target to see demos of all extensions.
+
+
 cocos2d for iPhone
 ==================
 
@@ -107,3 +115,4 @@ Did you find a bug ? Do you have feature request ? Do you want to merge a featur
 [1]: http://www.cocos2d-iphone.org "cocos2d for iPhone"
 [2]: http://www.cocos2d.org "cocos2d"
 [3]: http://www.cocos2d-iphone.org/wiki/doku.php/faq#i_found_a_bug_i_have_an_enhancement_proposal_what_should_i_do "contributing to cocos2d"
+[4]: http://twitter.com/jpsarda "jpsarda"
