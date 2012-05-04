@@ -1,4 +1,5 @@
 #import "cocos2d.h"
+#import "CCCow.h"
 
 //CLASS INTERFACE
 #ifdef __IPHONE_OS_VERSION_MAX_ALLOWED
@@ -54,6 +55,17 @@
 {
     CCSpriteHole	*sprite;
     CGPoint holeCurrent,holeGoal;
+}
+@end
+
+@interface CCCowBNDemo : JpsardaDemo
+{
+}
+@end
+
+@interface CCCowDemo : JpsardaDemo
+{
+    CCSpriteBatchNode *batch;
 }
 @end
 

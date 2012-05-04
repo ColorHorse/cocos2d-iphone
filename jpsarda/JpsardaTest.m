@@ -16,6 +16,8 @@ static NSString *transitions[] = {
 	@"CCSpriteScale9Demo",
     @"CCProgressBarDemo",
 	@"CCSpriteHoleDemo",
+    @"CCCowBNDemo",
+    @"CCCowDemo",
 };
 
 enum {
@@ -475,11 +477,158 @@ Class restartAction()
 
 
 
+#define CCCOWDEMOS_SCALE 0.5f
 
 
+#pragma mark CCCowBNDemo
+@implementation CCCowBNDemo
+-(id) init
+{
+	if( (self=[super init]) ) {
+		
+#ifdef __IPHONE_OS_VERSION_MAX_ALLOWED
+		self.isTouchEnabled = YES;
+#elif defined(__MAC_OS_X_VERSION_MAX_ALLOWED)
+		self.isMouseEnabled = YES;
+#endif
+        
+        screenRect.origin=CGPointZero;
+        screenRect.size=[[CCDirector sharedDirector] winSize];
+        
+        
+        /*
+        CCSprite *bg=[CCSprite spriteWithFile:@"background2.jpg"];
+        bg.position=ccp(screenRect.size
+                        .width*0.5f, screenRect.size.height*0.5f);
+        bg.color=ccc3(100, 255, 100);
+        [self addChild:bg];
+        */
+        
+        CCCowBN	*cow=[CCCowBN node]; cow.scale=CCCOWDEMOS_SCALE;
+        cow.position=ccp(screenRect.size
+                         .width*0.5f, screenRect.size.height*0.5f);
+        
+        [self addChild:cow];
+        
+        
+                
+        [self schedule:@selector(tick:)];
+	}	
+	return self;
+}
 
+-(void)tick:(ccTime)dt {
+    CCNode *node;
+	CCARRAY_FOREACH(children_, node){
+        if ([node isKindOfClass:[CCCowBN class]]) {
+            [((CCCowBN*)node) tick:dt];
+        }
+	}
+}
 
+#ifdef __IPHONE_OS_VERSION_MAX_ALLOWED
+- (void)ccTouchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
+{
+	for( UITouch *touch in touches ) {
+		CGPoint location = [touch locationInView: [touch view]];
+		CCCowBN	*cow=[CCCowBN node]; cow.scale=CCCOWDEMOS_SCALE;
+        cow.position=[[CCDirector sharedDirector] convertToGL: location];
+        [self addChild:cow];
+	}
+}
+#elif defined(__MAC_OS_X_VERSION_MAX_ALLOWED)
+-(BOOL) ccMouseUp:(NSEvent *)event
+{
+    CCCowBN	*cow=[CCCowBN node]; cow.scale=CCCOWDEMOS_SCALE;
+    cow.position=[[CCDirector sharedDirector] convertEventToGL:event];
+    [self addChild:cow];
+	return YES;
+    
+}
+#endif
 
+-(NSString *) title
+{
+	return @"CCCow node (tap screen)";
+}
+@end
+#pragma mark -
+
+#pragma mark CCCowDemo
+@implementation CCCowDemo
+-(id) init
+{
+	if( (self=[super init]) ) {
+		
+#ifdef __IPHONE_OS_VERSION_MAX_ALLOWED
+		self.isTouchEnabled = YES;
+#elif defined(__MAC_OS_X_VERSION_MAX_ALLOWED)
+		self.isMouseEnabled = YES;
+#endif
+        
+        screenRect.origin=CGPointZero;
+        screenRect.size=[[CCDirector sharedDirector] winSize];
+        
+        /*
+         CCSprite *bg=[CCSprite spriteWithFile:@"background2.jpg"];
+         bg.position=ccp(screenRect.size
+         .width*0.5f, screenRect.size.height*0.5f);
+         bg.color=ccc3(100, 255, 100);
+         [self addChild:bg];
+         */
+        
+        batch=[CCSpriteBatchNode batchNodeWithTexture:[[CCTextureCache sharedTextureCache] addImage:@"cow.png"]];
+        [self addChild:batch];
+        
+        CCCow	*cow=[CCCow node]; cow.scale=CCCOWDEMOS_SCALE;
+        cow.position=ccp(screenRect.size
+                         .width*0.5f, screenRect.size.height*0.5f);
+        
+        [batch addChild:cow];
+        
+        
+        
+        [self schedule:@selector(tick:)];
+	}	
+	return self;
+}
+
+-(void)tick:(ccTime)dt {
+    CCNode *node;
+	CCARRAY_FOREACH(children_, node){
+        if ([node isKindOfClass:[CCCow class]]) {
+            [((CCCow*)node) tick:dt];
+        }
+	}
+}
+
+#ifdef __IPHONE_OS_VERSION_MAX_ALLOWED
+- (void)ccTouchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
+{
+	for( UITouch *touch in touches ) {
+		CGPoint location = [touch locationInView: [touch view]];
+		CCCow	*cow=[CCCow node]; cow.scale=CCCOWDEMOS_SCALE;
+        cow.position=[[CCDirector sharedDirector] convertToGL: location];
+        [batch addChild:cow];
+	}
+}
+#elif defined(__MAC_OS_X_VERSION_MAX_ALLOWED)
+-(BOOL) ccMouseUp:(NSEvent *)event
+{
+    CCCow *cow=[CCCow node]; cow.scale=CCCOWDEMOS_SCALE;
+    cow.position=[[CCDirector sharedDirector] convertEventToGL:event];
+    [batch addChild:cow];
+	return YES;
+    
+}
+#endif
+
+-(NSString *) title
+{
+	return @"CCCow nested sprites (tap screen)";
+}
+@end
+#pragma mark -
 
 
 
